@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"entgo.io/bug/ent/predicate"
+	"entgo.io/bug/ent/schema"
 	"entgo.io/bug/ent/user"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -43,6 +44,18 @@ func (uu *UserUpdate) AddAge(i int) *UserUpdate {
 // SetName sets the "name" field.
 func (uu *UserUpdate) SetName(s string) *UserUpdate {
 	uu.mutation.SetName(s)
+	return uu
+}
+
+// SetUserBytes sets the "user_bytes" field.
+func (uu *UserUpdate) SetUserBytes(sb schema.UserBytes) *UserUpdate {
+	uu.mutation.SetUserBytes(sb)
+	return uu
+}
+
+// ClearUserBytes clears the value of the "user_bytes" field.
+func (uu *UserUpdate) ClearUserBytes() *UserUpdate {
+	uu.mutation.ClearUserBytes()
 	return uu
 }
 
@@ -144,6 +157,19 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: user.FieldName,
 		})
 	}
+	if value, ok := uu.mutation.UserBytes(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBytes,
+			Value:  value,
+			Column: user.FieldUserBytes,
+		})
+	}
+	if uu.mutation.UserBytesCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeBytes,
+			Column: user.FieldUserBytes,
+		})
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{user.Label}
@@ -179,6 +205,18 @@ func (uuo *UserUpdateOne) AddAge(i int) *UserUpdateOne {
 // SetName sets the "name" field.
 func (uuo *UserUpdateOne) SetName(s string) *UserUpdateOne {
 	uuo.mutation.SetName(s)
+	return uuo
+}
+
+// SetUserBytes sets the "user_bytes" field.
+func (uuo *UserUpdateOne) SetUserBytes(sb schema.UserBytes) *UserUpdateOne {
+	uuo.mutation.SetUserBytes(sb)
+	return uuo
+}
+
+// ClearUserBytes clears the value of the "user_bytes" field.
+func (uuo *UserUpdateOne) ClearUserBytes() *UserUpdateOne {
+	uuo.mutation.ClearUserBytes()
 	return uuo
 }
 
@@ -302,6 +340,19 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 			Type:   field.TypeString,
 			Value:  value,
 			Column: user.FieldName,
+		})
+	}
+	if value, ok := uuo.mutation.UserBytes(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBytes,
+			Value:  value,
+			Column: user.FieldUserBytes,
+		})
+	}
+	if uuo.mutation.UserBytesCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeBytes,
+			Column: user.FieldUserBytes,
 		})
 	}
 	_node = &User{config: uuo.config}

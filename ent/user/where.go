@@ -4,6 +4,7 @@ package user
 
 import (
 	"entgo.io/bug/ent/predicate"
+	"entgo.io/bug/ent/schema"
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -101,6 +102,13 @@ func Age(v int) predicate.User {
 func Name(v string) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldName), v))
+	})
+}
+
+// UserBytes applies equality check predicate on the "user_bytes" field. It's identical to UserBytesEQ.
+func UserBytes(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserBytes), v))
 	})
 }
 
@@ -288,6 +296,96 @@ func NameEqualFold(v string) predicate.User {
 func NameContainsFold(v string) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldName), v))
+	})
+}
+
+// UserBytesEQ applies the EQ predicate on the "user_bytes" field.
+func UserBytesEQ(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUserBytes), v))
+	})
+}
+
+// UserBytesNEQ applies the NEQ predicate on the "user_bytes" field.
+func UserBytesNEQ(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUserBytes), v))
+	})
+}
+
+// UserBytesIn applies the In predicate on the "user_bytes" field.
+func UserBytesIn(vs ...schema.UserBytes) predicate.User {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.User(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldUserBytes), v...))
+	})
+}
+
+// UserBytesNotIn applies the NotIn predicate on the "user_bytes" field.
+func UserBytesNotIn(vs ...schema.UserBytes) predicate.User {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.User(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldUserBytes), v...))
+	})
+}
+
+// UserBytesGT applies the GT predicate on the "user_bytes" field.
+func UserBytesGT(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUserBytes), v))
+	})
+}
+
+// UserBytesGTE applies the GTE predicate on the "user_bytes" field.
+func UserBytesGTE(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUserBytes), v))
+	})
+}
+
+// UserBytesLT applies the LT predicate on the "user_bytes" field.
+func UserBytesLT(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUserBytes), v))
+	})
+}
+
+// UserBytesLTE applies the LTE predicate on the "user_bytes" field.
+func UserBytesLTE(v schema.UserBytes) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUserBytes), v))
+	})
+}
+
+// UserBytesIsNil applies the IsNil predicate on the "user_bytes" field.
+func UserBytesIsNil() predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldUserBytes)))
+	})
+}
+
+// UserBytesNotNil applies the NotNil predicate on the "user_bytes" field.
+func UserBytesNotNil() predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldUserBytes)))
 	})
 }
 

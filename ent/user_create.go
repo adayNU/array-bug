@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/bug/ent/schema"
 	"entgo.io/bug/ent/user"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -28,6 +29,12 @@ func (uc *UserCreate) SetAge(i int) *UserCreate {
 // SetName sets the "name" field.
 func (uc *UserCreate) SetName(s string) *UserCreate {
 	uc.mutation.SetName(s)
+	return uc
+}
+
+// SetUserBytes sets the "user_bytes" field.
+func (uc *UserCreate) SetUserBytes(sb schema.UserBytes) *UserCreate {
+	uc.mutation.SetUserBytes(sb)
 	return uc
 }
 
@@ -149,6 +156,14 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 			Column: user.FieldName,
 		})
 		_node.Name = value
+	}
+	if value, ok := uc.mutation.UserBytes(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBytes,
+			Value:  value,
+			Column: user.FieldUserBytes,
+		})
+		_node.UserBytes = &value
 	}
 	return _node, _spec
 }
